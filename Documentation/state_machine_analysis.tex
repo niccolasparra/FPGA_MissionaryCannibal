@@ -1,0 +1,406 @@
+\documentclass[12pt]{article}
+\usepackage[a4paper, margin=0.8in]{geometry}
+\usepackage{tikz}
+\usepackage{circuitikz}
+\usepackage{karnaugh-map}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{float}
+\usetikzlibrary{automata,positioning,arrows.meta,shapes.geometric}
+
+\title{Sequential Logic State Machine Analysis\\Missionary-Cannibal Problem}
+\author{Niccolas Parra}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+% ===============================
+% STATE DIAGRAM
+% ===============================
+\section{State Diagram}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=3cm,
+                    state/.style={circle,thick,draw=blue!75,fill=blue!20,minimum size=1.2cm},
+                    final/.style={circle,thick,draw=red!75,fill=red!20,minimum size=1.2cm}]
+
+% States arranged in a circular pattern
+\node[state] (S0) at (0,4) {$S_0$\\(3,3)};
+\node[state] (S1) at (3,3) {$S_1$\\(3,1)};
+\node[state] (S2) at (4,0) {$S_2$\\(3,2)};
+\node[state] (S3) at (3,-3) {$S_3$\\(3,0)};
+\node[state] (S4) at (0,-4) {$S_4$\\(3,1)};
+\node[state] (S5) at (-3,-3) {$S_5$\\(1,1)};
+\node[state] (S6) at (-4,0) {$S_6$\\(2,2)};
+\node[state] (S7) at (-3,3) {$S_7$\\(0,2)};
+\node[state] (S8) at (-1,5) {$S_8$\\(0,3)};
+\node[state] (S9) at (1,5) {$S_9$\\(0,1)};
+\node[state] (S10) at (2,2) {$S_{10}$\\(0,2)};
+\node[final] (S11) at (1,1) {$S_{11}$\\(0,0)\\F=1};
+
+% State transitions
+\path[->] 
+(S0) edge[bend left=10] node[above] {CLK} (S1)
+(S1) edge[bend left=10] node[right] {CLK} (S2)
+(S2) edge[bend left=10] node[right] {CLK} (S3)
+(S3) edge[bend left=10] node[below] {CLK} (S4)
+(S4) edge[bend left=10] node[below] {CLK} (S5)
+(S5) edge[bend left=10] node[left] {CLK} (S6)
+(S6) edge[bend left=10] node[left] {CLK} (S7)
+(S7) edge[bend left=10] node[above] {CLK} (S8)
+(S8) edge[bend left=10] node[above] {CLK} (S9)
+(S9) edge[bend left=10] node[right] {CLK} (S10)
+(S10) edge[bend left=10] node[right] {CLK} (S11)
+(S11) edge[bend left=30] node[above] {CLK} (S0);
+
+% Reset arrow
+\draw[->] (-2,6) -- (-0.5,4.5) node[midway,above] {RESET};
+
+\end{tikzpicture}
+\caption{State Diagram for Missionary-Cannibal Sequential Logic}
+\label{fig:state_diagram}
+\end{figure}
+
+\textbf{State Encoding:} 4-bit binary encoding (Q3 Q2 Q1 Q0)
+\begin{itemize}
+    \item S0 = 0000, S1 = 0001, S2 = 0010, S3 = 0011
+    \item S4 = 0100, S5 = 0101, S6 = 0110, S7 = 0111
+    \item S8 = 1000, S9 = 1001, S10 = 1010, S11 = 1011
+\end{itemize}
+
+% ===============================
+% STATE TABLE
+% ===============================
+\section{State Table}
+
+\begin{table}[H]
+\centering
+\caption{Complete State Table}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+\hline
+\multicolumn{4}{|c|}{\textbf{Present State}} & \multirow{2}{*}{\textbf{Input}} & \multicolumn{4}{|c|}{\textbf{Next State}} \\
+\cline{1-4} \cline{6-9}
+Q3 & Q2 & Q1 & Q0 & & Q3+ & Q2+ & Q1+ & Q0+ \\
+\hline
+0 & 0 & 0 & 0 & CLK & 0 & 0 & 0 & 1 \\
+0 & 0 & 0 & 1 & CLK & 0 & 0 & 1 & 0 \\
+0 & 0 & 1 & 0 & CLK & 0 & 0 & 1 & 1 \\
+0 & 0 & 1 & 1 & CLK & 0 & 1 & 0 & 0 \\
+0 & 1 & 0 & 0 & CLK & 0 & 1 & 0 & 1 \\
+0 & 1 & 0 & 1 & CLK & 0 & 1 & 1 & 0 \\
+0 & 1 & 1 & 0 & CLK & 0 & 1 & 1 & 1 \\
+0 & 1 & 1 & 1 & CLK & 1 & 0 & 0 & 0 \\
+1 & 0 & 0 & 0 & CLK & 1 & 0 & 0 & 1 \\
+1 & 0 & 0 & 1 & CLK & 1 & 0 & 1 & 0 \\
+1 & 0 & 1 & 0 & CLK & 1 & 0 & 1 & 1 \\
+1 & 0 & 1 & 1 & CLK & 0 & 0 & 0 & 0 \\
+1 & 1 & 0 & 0 & X & 0 & 0 & 0 & 0 \\
+1 & 1 & 0 & 1 & X & 0 & 0 & 0 & 0 \\
+1 & 1 & 1 & 0 & X & 0 & 0 & 0 & 0 \\
+1 & 1 & 1 & 1 & X & 0 & 0 & 0 & 0 \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Output Table}
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline
+\multicolumn{4}{|c|}{\textbf{Present State}} & \multicolumn{4}{|c|}{\textbf{Outputs}} \\
+\hline
+Q3 & Q2 & Q1 & Q0 & M1 & M0 & C1 & C0 & F2 & F1 & F0 \\
+\hline
+0 & 0 & 0 & 0 & 1 & 1 & 1 & 1 & 0 & 0 & 0 \\
+0 & 0 & 0 & 1 & 1 & 1 & 0 & 1 & 0 & 0 & 0 \\
+0 & 0 & 1 & 0 & 1 & 1 & 1 & 0 & 0 & 0 & 0 \\
+0 & 0 & 1 & 1 & 1 & 1 & 0 & 0 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 & 1 & 1 & 0 & 1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 0 & 0 \\
+0 & 1 & 1 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 0 \\
+0 & 1 & 1 & 1 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+1 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 0 & 0 & 0 \\
+1 & 0 & 0 & 1 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+1 & 0 & 1 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+1 & 0 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 1 \\
+\hline
+\end{tabular}
+\end{table}
+
+% ===============================
+% K-MAPS FOR FLIP-FLOPS
+% ===============================
+\section{Karnaugh Maps for Flip-Flop Inputs}
+
+\subsection{K-Map for Q3+ (Next State of Q3)}
+
+\begin{figure}[H]
+\centering
+\begin{karnaugh-map}[4][4][1][$Q_1Q_0$][$Q_3Q_2$]
+    \minterms{7,8,9,10}
+    \maxterms{0,1,2,3,4,5,6,11,12,13,14,15}
+    \implicant{8}{10}
+    \implicant{7}{7}
+\end{karnaugh-map}
+\caption{K-Map for Q3+ (MSB of next state)}
+\end{figure}
+
+\textbf{Boolean Expression:} $Q_3^+ = Q_3Q_2'Q_1' + Q_3'Q_2Q_1Q_0$
+
+\subsection{K-Map for Q2+ (Next State of Q2)}
+
+\begin{figure}[H]
+\centering
+\begin{karnaugh-map}[4][4][1][$Q_1Q_0$][$Q_3Q_2$]
+    \minterms{3,4,5,6}
+    \maxterms{0,1,2,7,8,9,10,11,12,13,14,15}
+    \implicant{3}{3}
+    \implicant{4}{6}
+\end{karnaugh-map}
+\caption{K-Map for Q2+ }
+\end{figure}
+
+\textbf{Boolean Expression:} $Q_2^+ = Q_3'Q_2'Q_1Q_0 + Q_3'Q_2'Q_1' + Q_3'Q_2Q_1'$
+
+\subsection{K-Map for Q1+ (Next State of Q1)}
+
+\begin{figure}[H]
+\centering
+\begin{karnaugh-map}[4][4][1][$Q_1Q_0$][$Q_3Q_2$]
+    \minterms{1,2,5,6,8,9,10}
+    \maxterms{0,3,4,7,11,12,13,14,15}
+    \implicant{1}{1}
+    \implicant{2}{2}
+    \implicant{5}{5}
+    \implicant{6}{6}
+    \implicant{8}{10}
+\end{karnaugh-map}
+\caption{K-Map for Q1+}
+\end{figure}
+
+\textbf{Boolean Expression:} $Q_1^+ = Q_3'Q_2'Q_1'Q_0 + Q_3'Q_2'Q_1Q_0' + Q_3'Q_2Q_1'Q_0 + Q_3'Q_2Q_1Q_0' + Q_3Q_2'Q_1'$
+
+\subsection{K-Map for Q0+ (Next State of Q0)}
+
+\begin{figure}[H]
+\centering
+\begin{karnaugh-map}[4][4][1][$Q_1Q_0$][$Q_3Q_2$]
+    \minterms{0,2,4,6,8,10}
+    \maxterms{1,3,5,7,9,11,12,13,14,15}
+    \implicant{0}{0}
+    \implicant{2}{2}
+    \implicant{4}{4}
+    \implicant{6}{6}
+    \implicant{8}{8}
+    \implicant{10}{10}
+\end{karnaugh-map}
+\caption{K-Map for Q0+}
+\end{figure}
+
+\textbf{Boolean Expression:} $Q_0^+ = Q_1'Q_0' + Q_1Q_0'$ = $Q_0'$
+
+% ===============================
+% CIRCUIT DIAGRAM
+% ===============================
+\section{Circuit Diagram}
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.8, transform shape]
+
+% Clock and Reset inputs
+\node at (0,8) (CLK) {CLK};
+\node at (0,7) (RST) {RESET};
+
+% D Flip-Flops
+\node[flipflop D, scale=0.8] at (4,6) (FF3) {Q3};
+\node[flipflop D, scale=0.8] at (4,4) (FF2) {Q2};
+\node[flipflop D, scale=0.8] at (4,2) (FF1) {Q1};
+\node[flipflop D, scale=0.8] at (4,0) (FF0) {Q0};
+
+% Connect clocks
+\draw (CLK) |- (FF3.pin 3);
+\draw (CLK) |- (FF2.pin 3);
+\draw (CLK) |- (FF1.pin 3);
+\draw (CLK) |- (FF0.pin 3);
+
+% Connect resets
+\draw (RST) |- (FF3.down);
+\draw (RST) |- (FF2.down);
+\draw (RST) |- (FF1.down);
+\draw (RST) |- (FF0.down);
+
+% Next State Logic (simplified representation)
+\node[draw, rectangle, minimum width=3cm, minimum height=2cm] at (1.5,3) (NSL) {Next State\\Logic\\(Combinational)};
+
+% Connect FF outputs to NSL
+\draw (FF3.pin 1) -| (NSL.east);
+\draw (FF2.pin 1) -| (NSL.east);
+\draw (FF1.pin 1) -| (NSL.east);
+\draw (FF0.pin 1) -| (NSL.east);
+
+% Connect NSL to FF inputs
+\draw (NSL.east) |- (FF3.pin 6);
+\draw (NSL.east) |- (FF2.pin 6);
+\draw (NSL.east) |- (FF1.pin 6);
+\draw (NSL.east) |- (FF0.pin 6);
+
+% Output Logic
+\node[draw, rectangle, minimum width=2cm, minimum height=3cm] at (8,3) (OL) {Output\\Logic\\(Moore)};
+
+% Connect FF outputs to Output Logic
+\draw (FF3.pin 1) -| (OL.west);
+\draw (FF2.pin 1) -| (OL.west);
+\draw (FF1.pin 1) -| (OL.west);
+\draw (FF0.pin 1) -| (OL.west);
+
+% Outputs
+\node at (11,4) (M) {M[1:0]};
+\node at (11,3) (C) {C[1:0]};
+\node at (11,2) (F) {F[2:0]};
+
+\draw (OL.east) -- (M);
+\draw (OL.east) -- (C);
+\draw (OL.east) -- (F);
+
+\end{circuitikz}
+\caption{Complete Circuit Diagram with D Flip-Flops}
+\end{figure}
+
+% ===============================
+% DETAILED GATE-LEVEL IMPLEMENTATION
+% ===============================
+\section{Detailed Gate-Level Implementation}
+
+\subsection{Next State Logic for Q3+}
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=0.9]
+
+% Input signals
+\node at (0,4) (Q3) {Q3};
+\node at (0,3) (Q2) {Q2};
+\node at (0,2) (Q1) {Q1};
+\node at (0,1) (Q0) {Q0};
+
+% NOT gates
+\node[not port] at (2,3) (NOT_Q2) {};
+\node[not port] at (2,2) (NOT_Q1) {};
+\node[not port] at (2,4) (NOT_Q3) {};
+
+% Connect inputs to NOT gates
+\draw (Q2) -- (NOT_Q2.in);
+\draw (Q1) -- (NOT_Q1.in);
+\draw (Q3) -- (NOT_Q3.in);
+
+% AND gates for product terms
+\node[and port, number inputs=3] at (5,4) (AND1) {}; % Q3*Q2'*Q1'
+\node[and port, number inputs=4] at (5,2) (AND2) {}; % Q3'*Q2*Q1*Q0
+
+% Connect to first AND gate
+\draw (Q3) |- (AND1.in 1);
+\draw (NOT_Q2.out) |- (AND1.in 2);
+\draw (NOT_Q1.out) |- (AND1.in 3);
+
+% Connect to second AND gate
+\draw (NOT_Q3.out) |- (AND2.in 1);
+\draw (Q2) |- (AND2.in 2);
+\draw (Q1) |- (AND2.in 3);
+\draw (Q0) |- (AND2.in 4);
+
+% OR gate for final output
+\node[or port] at (8,3) (OR1) {};
+\draw (AND1.out) |- (OR1.in 1);
+\draw (AND2.out) |- (OR1.in 2);
+
+% Output
+\node at (10,3) (Q3_next) {Q3+};
+\draw (OR1.out) -- (Q3_next);
+
+\end{circuitikz}
+\caption{Gate-level implementation for Q3+ = Q3Q2'Q1' + Q3'Q2Q1Q0}
+\end{figure}
+
+% ===============================
+% CIRCUIT OPERATION DESCRIPTION
+% ===============================
+\section{Circuit Operation Description}
+
+\subsection{Clock Cycle Analysis}
+
+\textbf{On each positive clock edge:}
+
+\begin{enumerate}
+    \item \textbf{Current State Capture:} The D flip-flops capture the next state values on their D inputs
+    \item \textbf{State Update:} The current state (Q3Q2Q1Q0) changes to the new state
+    \item \textbf{Combinational Propagation:} 
+    \begin{itemize}
+        \item Next state logic computes the next state based on current state
+        \item Output logic computes outputs based on new current state
+    \end{itemize}
+    \item \textbf{Output Stabilization:} Outputs settle to new values (Moore machine)
+\end{enumerate}
+
+\subsection{State Sequence Operation}
+
+\textbf{Normal Operation Sequence:}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Clock Cycle} & \textbf{State} & \textbf{Outputs (M,C)} & \textbf{Action} \\
+\hline
+0 & 0000 & (3,3) & Initial state \\
+1 & 0001 & (3,1) & 2 cannibals cross \\
+2 & 0010 & (3,2) & 1 cannibal returns \\
+3 & 0011 & (3,0) & 2 cannibals cross \\
+4 & 0100 & (3,1) & 1 cannibal returns \\
+5 & 0101 & (1,1) & 2 missionaries cross \\
+6 & 0110 & (2,2) & 1M+1C return \\
+7 & 0111 & (0,2) & 2 missionaries cross \\
+8 & 1000 & (0,3) & 1 cannibal returns \\
+9 & 1001 & (0,1) & 2 cannibals cross \\
+10 & 1010 & (0,2) & 1 cannibal returns \\
+11 & 1011 & (0,0) & 2 cannibals cross + F=1 \\
+12 & 0000 & (3,3) & Auto-restart \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Reset Operation}
+
+\textbf{When RESET = 1:}
+\begin{itemize}
+    \item All flip-flops are cleared to 0 (synchronous reset)
+    \item Current state becomes 0000 (initial state)
+    \item Outputs immediately reflect initial state: M=11, C=11, F=000
+    \item System is ready to begin solution sequence
+\end{itemize}
+
+\subsection{Timing Characteristics}
+
+\textbf{Critical Path Analysis:}
+\begin{itemize}
+    \item \textbf{Clock-to-Q delay:} Flip-flop propagation time
+    \item \textbf{Combinational delay:} Next state logic + Output logic
+    \item \textbf{Setup time:} D input must be stable before clock edge
+    \item \textbf{Maximum frequency:} Limited by critical path delay
+\end{itemize}
+
+\textbf{Estimated Performance:}
+\begin{itemize}
+    \item \textbf{Flip-flop delay:} ~1ns
+    \item \textbf{Combinational logic:} ~3-5ns
+    \item \textbf{Total clock period:} ~8-10ns
+    \item \textbf{Maximum frequency:} 100-125 MHz
+\end{itemize}
+
+\end{document}
+
