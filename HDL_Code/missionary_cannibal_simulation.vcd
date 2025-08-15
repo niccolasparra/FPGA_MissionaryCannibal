@@ -1,0 +1,387 @@
+$date
+	Mon Jun 16 19:20:31 2025
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module tb_missionary_cannibal_complete $end
+$var wire 1 ! valid_state $end
+$var wire 4 " state [3:0] $end
+$var wire 1 # solution_complete $end
+$var wire 3 $ missionaries_right [2:0] $end
+$var wire 3 % missionaries_left [2:0] $end
+$var wire 3 & cannibals_right [2:0] $end
+$var wire 3 ' cannibals_left [2:0] $end
+$var wire 1 ( boat_side $end
+$var parameter 32 ) CLK_PERIOD $end
+$var reg 1 * clk $end
+$var reg 1 + performance_measured $end
+$var reg 1 , reset $end
+$var reg 1 - start $end
+$var real 1 . end_time $end
+$var real 1 / execution_time $end
+$var integer 32 0 i [31:0] $end
+$var real 1 1 start_time $end
+$scope module uut $end
+$var wire 1 * clk $end
+$var wire 1 2 enable_transition $end
+$var wire 1 , reset $end
+$var wire 1 - start $end
+$var wire 4 3 t_ff [3:0] $end
+$var parameter 4 4 IDLE $end
+$var parameter 4 5 S1 $end
+$var parameter 4 6 S10 $end
+$var parameter 4 7 S11 $end
+$var parameter 4 8 S12 $end
+$var parameter 4 9 S2 $end
+$var parameter 4 : S3 $end
+$var parameter 4 ; S4 $end
+$var parameter 4 < S5 $end
+$var parameter 4 = S6 $end
+$var parameter 4 > S7 $end
+$var parameter 4 ? S8 $end
+$var parameter 4 @ S9 $end
+$var reg 1 ( boat_side $end
+$var reg 3 A cannibals_left [2:0] $end
+$var reg 3 B cannibals_right [2:0] $end
+$var reg 3 C missionaries_left [2:0] $end
+$var reg 3 D missionaries_right [2:0] $end
+$var reg 1 # solution_complete $end
+$var reg 1 E started $end
+$var reg 4 F state [3:0] $end
+$var reg 1 ! valid_state $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+b1001 @
+b1000 ?
+b111 >
+b110 =
+b101 <
+b100 ;
+b11 :
+b10 9
+b1100 8
+b1011 7
+b1010 6
+b1 5
+b0 4
+b1010 )
+$end
+#0
+$dumpvars
+b0 F
+0E
+b0 D
+b11 C
+b0 B
+b11 A
+b0 3
+02
+r0 1
+bx 0
+r0 /
+r0 .
+0-
+1,
+0+
+0*
+0(
+b11 '
+b0 &
+b11 %
+b0 $
+0#
+b0 "
+1!
+$end
+#5000
+1*
+#10000
+0*
+#15000
+1*
+#20000
+0*
+0,
+#25000
+1*
+#30000
+0!
+b0 '
+b0 A
+b0 %
+b0 C
+0*
+b1101 "
+b1101 F
+#35000
+b1101 "
+b1101 F
+1*
+#40000
+0*
+b1110 "
+b1110 F
+#45000
+b1110 "
+b1110 F
+1*
+#50000
+0*
+b1111 "
+b1111 F
+#55000
+b1111 "
+b1111 F
+1*
+#60000
+1!
+b11 '
+b11 A
+b11 %
+b11 C
+b0 "
+b0 F
+0*
+1,
+#65000
+1*
+#70000
+0*
+0,
+#75000
+1*
+#80000
+r80 1
+0*
+1-
+#85000
+b1 3
+12
+1E
+1*
+#90000
+0*
+b0 0
+0-
+#95000
+b11 3
+b1 "
+b1 F
+1*
+#100000
+0*
+b1 0
+#105000
+b1 3
+1(
+b1 &
+b1 B
+b1 $
+b1 D
+b10 '
+b10 A
+b10 %
+b10 C
+b10 "
+b10 F
+1*
+#110000
+0*
+b10 0
+#115000
+b111 3
+0(
+b0 $
+b0 D
+b11 %
+b11 C
+b11 "
+b11 F
+1*
+#120000
+0*
+b11 0
+#125000
+b1 3
+1(
+b11 &
+b11 B
+b0 '
+b0 A
+b100 "
+b100 F
+1*
+#130000
+0*
+b100 0
+#135000
+b11 3
+0(
+b10 &
+b10 B
+b1 '
+b1 A
+b101 "
+b101 F
+1*
+#140000
+0*
+b101 0
+#145000
+b1 3
+1(
+b10 $
+b10 D
+b1 %
+b1 C
+b110 "
+b110 F
+1*
+#150000
+0*
+b110 0
+#155000
+0(
+b1 &
+b1 B
+b1 $
+b1 D
+b10 '
+b10 A
+b10 %
+b10 C
+b1111 3
+b111 "
+b111 F
+1*
+#160000
+0*
+b111 0
+#165000
+1(
+b11 $
+b11 D
+b0 %
+b0 C
+b1 3
+b1000 "
+b1000 F
+1*
+#170000
+0*
+b1000 0
+#175000
+b11 3
+0(
+b0 &
+b0 B
+b11 '
+b11 A
+b1001 "
+b1001 F
+1*
+#180000
+0*
+b1001 0
+#185000
+b1 3
+1(
+b10 &
+b10 B
+b1 '
+b1 A
+b1010 "
+b1010 F
+1*
+#190000
+0*
+b1010 0
+#195000
+b111 3
+0(
+b1 &
+b1 B
+b10 '
+b10 A
+b1011 "
+b1011 F
+1*
+#200000
+0*
+b1011 0
+#205000
+1+
+r125 /
+r205 .
+b0 3
+02
+1#
+1(
+b11 &
+b11 B
+b0 '
+b0 A
+b1100 "
+b1100 F
+1*
+#210000
+0*
+b10000 0
+#215000
+1*
+#220000
+0*
+#225000
+1*
+#230000
+0*
+#235000
+1*
+#240000
+0*
+#245000
+1*
+#250000
+0*
+#255000
+1*
+#260000
+0*
+#265000
+1*
+#270000
+0*
+#275000
+1*
+#280000
+0#
+0(
+b0 &
+b0 B
+b0 $
+b0 D
+b11 '
+b11 A
+b11 %
+b11 C
+0E
+b0 "
+b0 F
+0*
+1,
+#285000
+1*
+#290000
+0*
+0,
+#295000
+1*
+#300000
+0*

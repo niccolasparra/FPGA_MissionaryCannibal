@@ -1,136 +1,177 @@
-# Missionaries and Cannibals State Machine Project
-
-A complete digital design project implementing the classic Missionaries and Cannibals puzzle as a finite state machine using Verilog HDL.
+# Missionaries and Cannibals Digital Logic Implementation
 
 ## Project Overview
 
-This project solves the Missionaries and Cannibals puzzle through a sequential logic design approach. The puzzle involves safely transporting 3 missionaries and 3 cannibals across a river using a boat that can carry at most 2 people, ensuring that cannibals never outnumber missionaries on either side.
+This project implements the classic Missionaries and Cannibals problem as a digital finite state machine using T flip-flops. The design demonstrates both combinational and sequential logic design principles through a systematic approach including truth tables, K-maps, and HDL implementation.
 
 ## Project Structure
 
 ```
-MissionariesCannibals_Project/
-├── README.md                    # This file
-├── Documentation/               # All documentation files
-│   ├── state_machine_analysis.tex    # LaTeX document with K-maps and circuit diagrams
-│   ├── DETAILED_EXPLANATION.md       # Comprehensive design explanation
-│   ├── PROJECT_COMPLETE.md           # Project completion summary
-│   └── project_summary.md            # Project summary
-├── VerilogFiles/               # All Verilog source files
-│   ├── missionary_cannibal_complete.v        # Main state machine module
-│   ├── missionary_cannibal_complete_fixed.v  # Fixed version with improvements
-│   ├── missionary_cannibal_sequential.v      # Sequential logic implementation
-│   ├── tb_missionary_cannibal_sequential.v   # Testbench for sequential version
-│   └── tb_complete_final.v                   # Final comprehensive testbench
-└── SimulationFiles/            # Simulation outputs
-    └── missionary_cannibal_sequential.vcd    # Waveform data
+Final_Project/
+├── HDL_Code/
+│   ├── missionary_cannibal_complete.v     # Main module implementation
+│   ├── tb_missionary_cannibal_complete.v  # Comprehensive testbench
+│   └── missionary_sim                     # Compiled simulation executable
+├── Analysis_Scripts/
+│   ├── logic_analysis.py                  # Truth table generation
+│   ├── generate_kmaps.py                  # K-map analysis for T flip-flops
+│   ├── kmap_minimization.py               # Boolean function minimization
+│   └── boolean_minimizer.py               # Advanced optimization tools
+├── Simulation_Results/
+│   ├── final_simulation_output.txt        # Complete simulation log
+│   ├── missionary_cannibal_simulation.vcd # VCD waveform files
+│   └── complete_system.vcd
+├── Timing_Reports/
+│   ├── timing_constraints.sdc             # Timing constraints
+│   ├── run_simulation.tcl                 # TCL simulation script
+│   └── generate_report.tcl                # Report generation script
+├── Documentation/
+│   ├── missionary_cannibal_report.tex     # Complete LaTeX report
+│   └── missionary_cannibal_report.pdf     # Generated PDF report
+└── README.md                              # This file
 ```
 
-## Key Features
+## Problem Description
+
+The Missionaries and Cannibals problem requires transporting 3 missionaries and 3 cannibals across a river with the following constraints:
+- The boat can carry at most 2 people
+- Cannibals cannot outnumber missionaries on either side (when missionaries are present)
+- The boat must be operated by at least one person
+
+## Implementation Details
 
 ### State Machine Design
-- **10 unique states** representing valid puzzle configurations
-- **Sequential logic implementation** using D flip-flops
-- **State encoding** with 4-bit binary representation
-- **Transition logic** derived from Karnaugh maps
-- **Safety constraints** preventing invalid states
+- **13 valid states** (0000 to 1100) representing the solution sequence
+- **T flip-flop implementation** for state memory (4 bits)
+- **Moore machine architecture** with combinational output logic
+- **Invalid state handling** for robustness
 
-### Technical Implementation
-- **Verilog HDL** for hardware description
-- **Finite State Machine (FSM)** design methodology
-- **K-map optimization** for minimal logic expressions
-- **Comprehensive testbenches** for verification
-- **Waveform analysis** for timing verification
+### Key Features
+- Automatic progression through optimal 12-step solution
+- Invalid state detection and handling (states 1101, 1110, 1111)
+- Comprehensive verification testbench
+- Performance timing analysis
+- Educational demonstration of T flip-flop usage
+
+## Running the Simulation
+
+### Prerequisites
+- Icarus Verilog (iverilog) for HDL simulation
+- GTKWave for waveform viewing
+- Python 3.x for analysis scripts
+- LaTeX distribution for report compilation
+
+### Simulation Steps
+
+1. **Compile and Run Simulation:**
+   ```bash
+   cd Final_Project/HDL_Code/
+   iverilog -o missionary_sim tb_missionary_cannibal_complete.v missionary_cannibal_complete.v
+   ./missionary_sim
+   ```
+
+2. **View Waveforms:**
+   ```bash
+   gtkwave missionary_cannibal_simulation.vcd
+   ```
+
+3. **Run Analysis Scripts:**
+   ```bash
+   cd ../Analysis_Scripts/
+   python3 logic_analysis.py
+   python3 generate_kmaps.py
+   ```
+
+4. **Compile Report:**
+   ```bash
+   cd ../Documentation/
+   pdflatex missionary_cannibal_report.tex
+   pdflatex missionary_cannibal_report.tex  # Run twice for references
+   ```
+
+## Simulation Results
+
+The simulation demonstrates:
+- **✓ Successful state progression** through all 12 solution steps
+- **✓ Proper invalid state handling** with valid_state = 0
+- **✓ Correct output mappings** for all missionaries/cannibals positions
+- **✓ Reset functionality** working correctly
+- **✓ Timing performance** of 13 clock cycles total execution
+
+### Key Metrics
+- **Clock Period:** 10ns (100MHz simulation)
+- **Execution Time:** 125ns from start to completion
+- **State Transitions:** 12 solution steps + 1 start cycle
+- **Latency:** 1 clock cycle per state transition
+
+## Educational Value
+
+This project demonstrates:
+1. **Combinational Logic Design:** Truth tables, K-maps, Boolean minimization
+2. **Sequential Logic Design:** T flip-flop implementation and state machines
+3. **HDL Programming:** Professional Verilog coding practices
+4. **Design Verification:** Comprehensive testbench development
+5. **Documentation:** Complete technical report with LaTeX
+
+## File Descriptions
+
+### HDL Code
+- `missionary_cannibal_complete.v`: Main state machine with T flip-flops
+- `tb_missionary_cannibal_complete.v`: Testbench with comprehensive verification
+
+### Analysis Scripts
+- `logic_analysis.py`: Generates truth tables for the original combinational logic
+- `generate_kmaps.py`: Creates K-maps for T flip-flop inputs
+- `kmap_minimization.py`: Boolean function optimization
+- `boolean_minimizer.py`: Advanced minimization techniques
 
 ### Documentation
-- **LaTeX technical report** with circuit diagrams and K-maps
-- **Detailed markdown explanations** of design process
-- **Step-by-step solution** trace through all valid states
-- **Circuit analysis** with logic gate implementations
+- `missionary_cannibal_report.tex`: Complete technical report covering:
+  - Problem description and motivation
+  - Combinational logic design with truth tables and K-maps
+  - Sequential logic design with T flip-flops
+  - Justification for T flip-flop selection
+  - Module descriptions and architecture
+  - Complete HDL code with comments
+  - Simulation results and analysis
+  - Conclusions and references
 
-## States and Encoding
+## Design Highlights
 
-| State | Missionaries Left | Cannibals Left | Boat Position | Binary Code |
-|-------|------------------|----------------|---------------|-------------|
-| S0    | 3                | 3              | Left          | 0000        |
-| S1    | 3                | 1              | Right         | 0001        |
-| S2    | 3                | 2              | Left          | 0010        |
-| S3    | 3                | 0              | Right         | 0011        |
-| S4    | 3                | 1              | Left          | 0100        |
-| S5    | 1                | 1              | Right         | 0101        |
-| S6    | 2                | 2              | Left          | 0110        |
-| S7    | 0                | 2              | Right         | 0111        |
-| S8    | 0                | 3              | Left          | 1000        |
-| S9    | 0                | 1              | Right         | 1001        |
-| S10   | 0                | 0              | Right         | 1010        |
+### T Flip-Flop Implementation
+The design uses T flip-flops for educational reasons:
+- Natural fit for binary counter progression
+- Clear demonstration of toggle behavior
+- Minimal control logic for sequential patterns
+- Educational value in understanding flip-flop types
 
-## Solution Path
+### Invalid State Handling
+The design explicitly handles invalid states (1101, 1110, 1111):
+- Sets `valid_state = 0` for invalid combinations
+- Zeros all outputs for safety
+- Demonstrates defensive programming practices
 
-The optimal solution follows this state sequence:
-S0 → S1 → S2 → S3 → S4 → S5 → S6 → S7 → S8 → S9 → S10
+### Comprehensive Verification
+The testbench includes:
+- Invalid state injection and testing
+- Complete solution sequence verification
+- Reset functionality testing
+- Timing analysis and performance metrics
+- Safety constraint checking
 
-## Files Description
+## Future Enhancements
 
-### Main Design Files
-- `missionary_cannibal_complete_fixed.v`: Final optimized state machine implementation
-- `tb_complete_final.v`: Comprehensive testbench with all test cases
+- **Parameterizable Design:** Support for N missionaries and N cannibals
+- **Multiple Solutions:** Implementation of alternative solution paths
+- **Interactive Mode:** User-controlled step-through capability
+- **FPGA Implementation:** Hardware synthesis and optimization
+- **Optimization Analysis:** Comparison of different solution strategies
 
-### Documentation Files
-- `state_machine_analysis.tex`: Complete LaTeX report with mathematical analysis
-- `DETAILED_EXPLANATION.md`: In-depth explanation of design methodology
+## Authors
 
-### Simulation Files
-- `missionary_cannibal_sequential.vcd`: GTKWave-compatible waveform data
-
-## How to Use
-
-### Simulation
-1. Compile the Verilog files using your preferred simulator (ModelSim, Icarus Verilog, etc.)
-2. Run the testbench to verify functionality
-3. View waveforms using GTKWave or similar tool
-
-### Synthesis
-1. Use the main module for FPGA implementation
-2. Apply timing constraints as needed
-3. Verify timing closure and resource utilization
-
-## Design Methodology
-
-1. **Problem Analysis**: Identified all valid states and transitions
-2. **State Encoding**: Assigned binary codes to each state
-3. **K-map Optimization**: Derived minimal Boolean expressions
-4. **Sequential Logic Design**: Implemented using D flip-flops
-5. **Verification**: Comprehensive testbench validation
-6. **Documentation**: Detailed technical report generation
-
-## Tools Used
-
-- **Verilog HDL**: Hardware description language
-- **LaTeX**: Technical documentation
-- **GTKWave**: Waveform visualization
-- **Karnaugh Maps**: Logic optimization
-- **ModelSim/Icarus Verilog**: Simulation tools
-
-## Academic Context
-
-This project demonstrates proficiency in:
-- Digital logic design
-- Finite state machine implementation
-- Verilog HDL programming
-- Sequential circuit analysis
-- Technical documentation
-- Engineering problem solving
-
-## Author
-
-Niccolás Parra  
-Digital Design Course Project
+Niccolás Parra - Digital Logic Design Implementation
 
 ## License
 
-This project is for educational purposes. Feel free to use and modify for learning objectives.
-
----
-
-*For detailed technical analysis, refer to the documentation files in the Documentation/ folder.*
+This project is for educational purposes as part of digital logic design coursework.
 

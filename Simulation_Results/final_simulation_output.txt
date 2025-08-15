@@ -1,0 +1,65 @@
+VCD info: dumpfile missionary_cannibal_simulation.vcd opened for output.
+=== Missionaries and Cannibals State Machine Simulation ===
+Time	State	M_L	C_L	M_R	C_R	Boat	Complete	Valid
+----	-----	---	---	---	---	----	--------	-----
+30000	0000	  3	  3	  0	  0	Left	       0	    1
+
+=== TESTING INVALID INPUT SCENARIOS ===
+40000	1101	  0	  0	  0	  0	Left	       0	    0 - INVALID STATE
+50000	1110	  0	  0	  0	  0	Left	       0	    0 - INVALID STATE
+60000	1111	  0	  0	  0	  0	Left	       0	    0 - INVALID STATE
+
+=== STARTING NORMAL SOLUTION SEQUENCE ===
+100000	0001	  3	  3	  0	  0	Left	       0	    1
+State S1: Initial setup - boat on left
+110000	0010	  2	  2	  1	  1	Right	       0	    1
+State S2: 1M,1C crossed to right
+120000	0011	  3	  2	  0	  1	Left	       0	    1
+State S3: 1M returned to left
+130000	0100	  3	  0	  0	  3	Right	       0	    1
+State S4: 2C crossed to right
+140000	0101	  3	  1	  0	  2	Left	       0	    1
+State S5: 1C returned to left
+150000	0110	  1	  1	  2	  2	Right	       0	    1
+State S6: 2M crossed to right
+160000	0111	  2	  2	  1	  1	Left	       0	    1
+State S7: 1M,1C returned to left
+170000	1000	  0	  2	  3	  1	Right	       0	    1
+State S8: 2M crossed to right
+180000	1001	  0	  3	  3	  0	Left	       0	    1
+State S9: 1C returned to left
+190000	1010	  0	  1	  3	  2	Right	       0	    1
+State S10: 2C crossed to right
+200000	1011	  0	  2	  3	  1	Left	       0	    1
+State S11: 1C returned to left
+
+=== PERFORMANCE METRICS ===
+Execution Time: 125.00 ns
+Clock Cycles to Complete: 13
+210000	1100	  0	  0	  3	  3	Right	       1	    1
+
+*** SOLUTION COMPLETED SUCCESSFULLY! ***
+Final State: All 3 missionaries and 3 cannibals on right side
+State S12: SOLUTION COMPLETE!
+State S12: SOLUTION COMPLETE!
+State S12: SOLUTION COMPLETE!
+State S12: SOLUTION COMPLETE!
+State S12: SOLUTION COMPLETE!
+
+=== VERIFICATION RESULTS ===
+✓ PASS: Final positioning correct
+✓ PASS: Solution complete flag set
+✓ PASS: Valid state maintained
+
+=== TIMING ANALYSIS ===
+Clock Period: 10 ns
+Total Simulation Time: 260000
+Number of Clock Cycles: 26
+
+=== TESTING RESET FUNCTIONALITY ===
+State S12: SOLUTION COMPLETE!
+State S12: SOLUTION COMPLETE!
+✓ PASS: Reset functionality working
+
+=== SIMULATION COMPLETED ===
+tb_missionary_cannibal_complete.v:176: $finish called at 300000 (1ps)
